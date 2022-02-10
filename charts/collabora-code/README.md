@@ -53,11 +53,11 @@ helm install --name collabora-code -f values.yaml iwilltry42/collabora
 | `image.pullPolicy`                                | Image pull policy                                             | `IfNotPresent`                                              |
 | `collabora.DONT_GEN_SSL_CERT`                     | Disable generating a new SSL certificate signed by a dummy CA. | `true`                                                      |
 | `collabora.domain`                                | Double escaped WOPI host (e.g. Nextcloud)                                      | `wopihost\\.domain\\.tld`                                         |
-| `collabora.extra_params`                          | List of extra parameters to set in `/etc/coolwsd/coolwsd.xml`                              | `--o:ssl.termination=true --o:ssl.enable=false`             |
-| `collabora.server_name`                           | Collabora server name (single escaped)                        | `collabora\.domain\.tld`                                         |
-| `collabora.password`                              | Collabora admin panel password                                    | `examplepass`                                               |
-| `collabora.username`                              | Collabora admin panel username                                    | `admin`                                                     |
-| `collabora.dictionaries`                          | Collabora enabled dictionaries                                | `de_DE en_GB en_US es_ES fr_FR it nl pt_BR pt_PT ru`        |
+| `env.extra_params`                          | List of extra parameters to set in `/etc/coolwsd/coolwsd.xml`                              | `--o:ssl.termination=true --o:ssl.enable=false`             |
+| `env.server_name`                           | Collabora server name (single escaped)                        | `collabora\.domain\.tld`                                         |
+| `env.dictionaries`                          | Collabora enabled dictionaries                                | `de_DE en_GB en_US es_ES fr_FR it nl pt_BR pt_PT ru`        |
+| `env.password`                              | Collabora admin panel password                                    | `examplepass`                                               |
+| `secret.username`                              | Collabora admin panel username                                    | `admin`                                                     |
 | `existingSecret` | Reference an existing secret which will be injected as environment variables, e.g. to not have username/password from the `collabora` section in the values file. | `""` |
 | `ingress.enabled`                                 |                                                               | `false`                                                     |
 | `ingress.annotations`                             |                                                               | `{}`                                                        |

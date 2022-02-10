@@ -25,13 +25,14 @@ ingress:
 # and mapped into the pod as environment variables.
 # This means, that the keys here are also the names of the environment variables.
 # See https://sdk.collaboraonline.com/docs/installation/CODE_Docker_image.html#setting-the-application-configuration-dynamically-via-environment-variables
-collabora:
+env:
   DONT_GEN_SSL_CERT: true
   domain: nextcloud\\.domain\\.tld # WOPI Host, e.g. Nextcloud Server Domain -> double escaped
   extra_params: --o:ssl.termination=true --o:ssl.enable=false # by default, SSL is terminated at the ingress controller
-  server_name: collabora\.domain\.tld # Domain of the Collabora Server -> single escaped
+  server_name: collabora\\.domain\\.tld # Domain of the Collabora Server -> single escaped
   dictionaries: de_DE en_GB en_US es_ES fr_FR it nl pt_BR pt_PT ru
 
+secret:
   # define username and password here, or include them via the existingSecret below
   username: admin
   password: examplepass
