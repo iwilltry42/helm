@@ -3,6 +3,22 @@ entries:
   collabora-code:
   - apiVersion: v2
     appVersion: 21.11.1.4.1
+    created: "2022-02-10T15:37:15.218154563Z"
+    description: Collabora Office - CODE
+    digest: 2e5dbbcc45ed010db70d0b0d7c8dcd969d8f19ff222ac3e528d981f270b23175
+    home: https://iwilltry42.github.io/helm/
+    icon: https://avatars0.githubusercontent.com/u/22418908?s=200&v=4
+    maintainers:
+    - email: tk@thklein.io
+      name: Thorsten Klein
+    name: collabora-code
+    sources:
+    - https://iwilltry42.github.io/helm/
+    urls:
+    - https://github.com/iwilltry42/helm/releases/download/collabora-code-0.0.3/collabora-code-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: 21.11.1.4.1
     created: "2022-02-10T15:33:06.414898693Z"
     description: Collabora Office - CODE
     digest: fce99aed3f798f4c61f47247997e6ae41c0b52240dd9dde0e3a0e38e8ef02b52
@@ -33,4 +49,4 @@ entries:
     urls:
     - https://github.com/iwilltry42/helm/releases/download/collabora-code-0.0.1/collabora-code-0.0.1.tgz
     version: 0.0.1
-generated: "2022-02-10T15:33:06.414913093Z"
+generated: "2022-02-10T15:37:15.218165663Z"
