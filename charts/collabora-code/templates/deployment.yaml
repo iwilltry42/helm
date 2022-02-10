@@ -26,8 +26,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
+            {{- if not .Values.existingSecret }}
             - secretRef:
                 name: {{ include "collabora-code.fullname" . }}
+            {{- end }}
             {{- if .Values.existingSecret }}
             - secretRef:
                 name: {{ .Values.existingSecret }}
