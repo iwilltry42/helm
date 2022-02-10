@@ -34,7 +34,6 @@ spec:
             {{- end }}
           {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
-            failureThreshold: 3
             httpGet:
               path: {{ .Values.livenessProbe.path }}
               port: http
@@ -47,7 +46,6 @@ spec:
           {{- end }}
           {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
-            failureThreshold: 3
             httpGet:
               path: {{ .Values.readinessProbe.path }}
               port: http
