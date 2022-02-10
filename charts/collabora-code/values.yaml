@@ -1,0 +1,81 @@
+replicaCount: 1
+
+image:
+  repository: collabora/code
+  tag: 21.11.1.4.1
+  pullPolicy: IfNotPresent
+
+strategy: Recreate
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 9980
+
+ingress:
+  enabled: false
+  annotations: {}
+  paths: []
+  hosts: []
+  tls: []
+
+# all configuration options will be stored in a secret
+# and mapped into the pod as environment variables.
+# This means, that the keys here are also the names of the environment variables.
+# See https://sdk.collaboraonline.com/docs/installation/CODE_Docker_image.html#setting-the-application-configuration-dynamically-via-environment-variables
+collabora:
+  DONT_GEN_SSL_CERT: true
+  domain: nextcloud\\.domain\\.tld # WOPI Host, e.g. Nextcloud Server Domain -> double escaped
+  extra_params: --o:ssl.termination=true --o:ssl.enable=false # by default, SSL is terminated at the ingress controller
+  server_name: collabora\.domain\.tld # Domain of the Collabora Server -> single escaped
+  dictionaries: de_DE en_GB en_US es_ES fr_FR it nl pt_BR pt_PT ru
+
+  # define username and password here, or include them via the existingSecret below
+  username: admin
+  password: examplepass
+
+# include existing secret (via environment variables)
+existingSecret: ""
+
+# privilege escalation to speed up jail creation (see https://sdk.collaboraonline.com/docs/installation/CODE_Docker_image.html#how-to-grab-the-code-image-from-docker-image)
+securitycontext:
+  allowPrivilegeEscalation: true
+  capabilities:
+    add:
+    - MKNOD
+
+resources: {}
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  timeoutSeconds: 2
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+  scheme: HTTP
+  path: /
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  timeoutSeconds: 2
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+  scheme: HTTP
+  path: /
