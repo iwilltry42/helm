@@ -24,9 +24,8 @@ hpa:
   threshhold:
     cpu: 0.75
     ram: 768Mi
+existingSecret: tooljet
 secret:
-  name: tooljet
-  create: false
   data:
     pg_user: "postgresql"
     pg_password: "postgresql"
