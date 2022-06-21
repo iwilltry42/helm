@@ -4,8 +4,7 @@ service:
 ingress:
   enabled: false
   tls: []
-  hosts:
-    - foo.bar.baz
+  hosts: []
   paths: []
 
 
@@ -16,6 +15,8 @@ resources:
   limits:
     memory: 8Gi
     cpu: 4
+
+extraEnv: []
 
 hpa:
   enabled: false

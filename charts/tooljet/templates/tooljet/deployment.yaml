@@ -66,3 +66,6 @@ spec:
                   key: secret_key_base
             - name: DEPLOYMENT_PLATFORM
               value: "k8s:helm"
+            {{- with .Values.extraEnv }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
