@@ -84,6 +84,24 @@ entries:
   tooljet:
   - apiVersion: v2
     appVersion: v1.19.0
+    created: "2022-06-21T11:39:16.993006678Z"
+    dependencies:
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.6.7
+    description: ToolJet LowCode Tool
+    digest: a67ed10308f2229e24660f429481de7c54c3e5e061ca9b019c6f7a9c22653b84
+    maintainers:
+    - email: tk@thklein.io
+      name: Thorsten Klein
+      url: https://thklein.io
+    name: tooljet
+    type: application
+    urls:
+    - https://github.com/iwilltry42/helm/releases/download/tooljet-1.3.1/tooljet-1.3.1.tgz
+    version: 1.3.1
+  - apiVersion: v2
+    appVersion: v1.19.0
     created: "2022-06-20T18:42:14.419209674Z"
     dependencies:
     - name: postgresql
@@ -114,4 +132,4 @@ entries:
     urls:
     - https://github.com/iwilltry42/helm/releases/download/tooljet-1.2.2/tooljet-1.2.2.tgz
     version: 1.2.2
-generated: "2022-06-20T18:42:14.419511874Z"
+generated: "2022-06-21T11:39:16.993035579Z"
