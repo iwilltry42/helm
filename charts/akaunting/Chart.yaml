@@ -1,0 +1,20 @@
+apiVersion: v2
+name: akaunting
+description: Akaunting
+type: application
+version: 0.0.1
+appVersion: "3.0.6"
+maintainers:
+  - name: Thorsten Klein
+    email: tk@thklein.io
+    url: https://thklein.io
+icon: https://avatars.githubusercontent.com/u/26357771?s=200&v=4
+sources:
+- https://iwilltry42.github.io/helm/
+dependencies:
+- name: postgresql
+  version: "11.8.1"
+  repository: https://charts.bitnami.com/bitnami
+- name: redis
+  version: "17.1.4"
+  repository: https://charts.bitnami.com/bitnami
