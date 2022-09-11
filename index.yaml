@@ -3,6 +3,30 @@ entries:
   akaunting:
   - apiVersion: v2
     appVersion: 3.0.6
+    created: "2022-09-11T10:48:15.578315553Z"
+    dependencies:
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.8.1
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.1.4
+    description: Akaunting
+    digest: aed9da5e1c0ec583bd8f67e91f466ff6f363a10cebcc70ce62055817c089f2ac
+    icon: https://avatars.githubusercontent.com/u/26357771?s=200&v=4
+    maintainers:
+    - email: tk@thklein.io
+      name: Thorsten Klein
+      url: https://thklein.io
+    name: akaunting
+    sources:
+    - https://iwilltry42.github.io/helm/
+    type: application
+    urls:
+    - https://github.com/iwilltry42/helm/releases/download/akaunting-0.0.3/akaunting-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: 3.0.6
     created: "2022-09-11T10:15:29.137642938Z"
     dependencies:
     - name: postgresql
@@ -157,4 +181,4 @@ entries:
     urls:
     - https://github.com/iwilltry42/helm/releases/download/tooljet-1.2.2/tooljet-1.2.2.tgz
     version: 1.2.2
-generated: "2022-09-11T10:15:29.137671939Z"
+generated: "2022-09-11T10:48:15.578344055Z"
