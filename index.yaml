@@ -223,4 +223,24 @@ entries:
     urls:
     - https://github.com/iwilltry42/helm/releases/download/tooljet-1.2.2/tooljet-1.2.2.tgz
     version: 1.2.2
-generated: "2022-09-13T18:59:42.550619782Z"
+  vikunja:
+  - apiVersion: v2
+    appVersion: 0.18.2
+    created: "2022-09-13T19:12:28.466322684Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.1.*
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.8.*
+    description: A Helm chart for Kubernetes
+    digest: 5cb8cb82899d4243d5d1480d7045617445eb9ed4b6759514546472bc196af8b4
+    name: vikunja
+    type: application
+    urls:
+    - https://github.com/iwilltry42/helm/releases/download/vikunja-0.0.1/vikunja-0.0.1.tgz
+    version: 0.0.1
+generated: "2022-09-13T19:12:28.466369484Z"
