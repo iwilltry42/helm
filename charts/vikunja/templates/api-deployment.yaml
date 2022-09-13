@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "vikunja.fullname" . }}-api
+  labels:
+    component: api
+    {{- include "vikunja.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.api.replicaCount }}
+  selector:
+    matchLabels:
+      component: api
+      {{- include "vikunja.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.api.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        component: api
+        {{- include "vikunja.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.api.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.api.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          env:
+            {{- if .Values.frontend.url }}
+            - name: VIKUNJA_SERVICE_FRONTENDURL
+              value:  {{ .Values.frontend.url }}
+            {{- end }}
+            - name: VIKUNJA_CACHE_ENABLED
+              value: "{{ .Values.cache.enabled }}"
+            - name: VIKUNJA_CACHE_TYPE
+              value: "{{ .Values.cache.type }}"
+            - name: VIKUNJA_REDIS_ENABLED
+              value: "{{ and .Values.cache.enabled .Values.redis.enabled }}" # TODO: add check for cache type
+            {{- if and .Values.redis.enabled .Values.cache.host }}
+            - name: VIKUNJA_REDIS_HOST
+              value: "{{ .Values.cache.host }}"
+            {{- end }}
+            - name: VIKUNJA_DATABASE_TYPE
+              value: "{{ .Values.database.type }}"
+            - name: VIKUNJA_DATABASE_USER
+              value: "{{ .Values.database.username }}"
+            - name: VIKUNJA_DATABASE_PASSWORD
+              value: "{{ .Values.database.password }}"
+            - name: VIKUNJA_DATABASE_HOST
+              value: "{{ .Values.database.host }}"
+            - name: VIKUNJA_DATABASE_DATABASE
+              value: "{{ .Values.database.database }}"
+            {{- include "env_vars" .Values.api.env | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.api.securityContext | nindent 12 }}
+          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+          volumeMounts:
+            - name: config
+              mountPath: /etc/vikunja/config.yml
+              subPath: config.yml
+          ports:
+            - name: http
+              containerPort: 3456
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.api.resources | nindent 12 }}
+      volumes:
+        - name: config
+          configMap:
+            name: vikunja-api-config
+      {{- with .Values.api.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.api.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.api.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

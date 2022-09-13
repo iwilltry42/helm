@@ -1,0 +1,79 @@
+api:
+  image:
+    repository: vikunja/api
+    tag: 0.18.1
+    pullPolicy: IfNotPresent
+
+  replicaCount: 1
+
+  env:
+    VIKUNJA_SERVICE_ENABLEREGISTRATION: "false"
+    VIKUNJA_SERVICE_TIMEZONE: "Europe/Berlin"
+    # VIKUNJA_SERVICE_JWTSECRET:
+    #   secretKeyRef:
+    #     name: vikunja
+    #     key: jwtsecret
+
+  service:
+    type: ClusterIP
+    port: ""
+
+  ingress:
+    enabled: false
+    hosts: []
+    annotations: {}
+    className: ""
+    tls: []
+
+  persistence:
+    files:
+      enabled: false
+      existingClaim: ""
+      storageClassName: "default"
+      size: 5Gi
+
+frontend:
+  image:
+    repository: vikunja/frontend
+    tag: 0.18.2
+    pullPolicy: IfNotPresent
+
+  url: ""
+
+  replicaCount: 1
+
+  env: {}
+
+  service:
+    type: ClusterIP
+    port: ""
+
+  ingress:
+    enabled: true
+    hosts: []
+    annotations: {}
+    className: ""
+    tls: []
+
+database:
+  type: sqlite
+  host: ""
+  username: "vikunja"
+  password: "vikunja"
+  database: "vikunja"
+
+cache:
+  enabled: true
+  type: redis
+  host: ""
+
+# Cache
+redis:
+  enabled: true
+
+# databases
+postgresql:
+  enabled: true
+
+
+
