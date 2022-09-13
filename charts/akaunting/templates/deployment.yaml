@@ -39,14 +39,6 @@ spec:
           volumeMounts:
             - name: akaunting-data
               mountPath: /var/www/html
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
