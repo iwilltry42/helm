@@ -3,6 +3,30 @@ entries:
   akaunting:
   - apiVersion: v2
     appVersion: 3.0.6
+    created: "2022-09-21T12:52:54.44237877Z"
+    dependencies:
+    - name: mariadb
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.3.1
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.1.4
+    description: Akaunting
+    digest: da60e6fb733cb4d2869e526ac21885842d82bb5d115b7e529a2c0cfe65efe34b
+    icon: https://avatars.githubusercontent.com/u/26357771?s=200&v=4
+    maintainers:
+    - email: tk@thklein.io
+      name: Thorsten Klein
+      url: https://thklein.io
+    name: akaunting
+    sources:
+    - https://iwilltry42.github.io/helm/
+    type: application
+    urls:
+    - https://github.com/iwilltry42/helm/releases/download/akaunting-0.0.5/akaunting-0.0.5.tgz
+    version: 0.0.5
+  - apiVersion: v2
+    appVersion: 3.0.6
     created: "2022-09-13T18:12:21.881111035Z"
     dependencies:
     - name: postgresql
@@ -243,4 +267,4 @@ entries:
     urls:
     - https://github.com/iwilltry42/helm/releases/download/vikunja-0.0.1/vikunja-0.0.1.tgz
     version: 0.0.1
-generated: "2022-09-13T19:12:28.466369484Z"
+generated: "2022-09-21T12:52:54.442413673Z"
