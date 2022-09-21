@@ -19,6 +19,8 @@ persistence:
 
 env:
   APP_URL: "https://akaunting.example.com"
+  LOCALE: de-DE
+  DB_CONNECTION: mysql
   DB_HOST: ""
   DB_PORT: ""
   DB_NAME: akaunting
@@ -115,12 +117,12 @@ redis:
   volumePermissions:
     enabled: true
 
-postgresql:
+mariadb:
+  architecture: standalone
   auth:
     username: akaunting
     database: akaunting
-    existingSecret: akaunting-postgres
-  architecture: standalone
+    existingSecret: akaunting-db
   primary:
     persistence:
       enabled: true
