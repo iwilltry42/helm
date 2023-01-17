@@ -60,3 +60,17 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Simplify environment variables in values file
+*/}}
+{{- define "env_vars" -}}
+{{- range $key, $value := . }}
+- name: {{ $key | quote }}
+  {{- if kindIs "map" $value }}
+  valueFrom: {{ $value | toYaml | nindent 4 }}
+  {{- else }}
+  value: {{ $value | quote }}
+  {{ end }}
+{{- end -}}
+{{- end -}}
