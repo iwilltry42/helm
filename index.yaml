@@ -181,6 +181,22 @@ entries:
   eufy-security:
   - apiVersion: v2
     appVersion: 1.3.0
+    created: "2023-01-19T08:16:08.723745339Z"
+    description: Bring your Eufy Security Cameras into Kubernetes
+    digest: 757ac529126eddb3ba09fefc403ff6ba68eb985e07b3f74b2f0e403810b0bbcc
+    maintainers:
+    - email: tk@thklein.io
+      name: Thorsten Klein
+    name: eufy-security
+    sources:
+    - https://github.com/fuatakgun/eufy_security_addon
+    - https://github.com/bropat/eufy-security-ws
+    type: application
+    urls:
+    - https://github.com/iwilltry42/helm/releases/download/eufy-security-0.0.3/eufy-security-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: 1.3.0
     created: "2023-01-17T21:22:54.429856706Z"
     description: Bring your Eufy Security Cameras into Kubernetes
     digest: 2dfdaa094397a70fb70af26866598a04bc31bcf851b0c3b541b946b17e6791d6
@@ -300,4 +316,4 @@ entries:
     urls:
     - https://github.com/iwilltry42/helm/releases/download/vikunja-0.0.1/vikunja-0.0.1.tgz
     version: 0.0.1
-generated: "2023-01-17T21:22:54.429878106Z"
+generated: "2023-01-19T08:16:08.72379134Z"
