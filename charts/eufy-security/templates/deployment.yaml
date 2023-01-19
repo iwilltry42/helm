@@ -34,6 +34,8 @@ spec:
             - name: http
               containerPort: 3000
               protocol: TCP
+          env:
+            {{- include "env_vars" .Values.env | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
