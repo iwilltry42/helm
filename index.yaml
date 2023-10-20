@@ -316,4 +316,31 @@ entries:
     urls:
     - https://github.com/iwilltry42/helm/releases/download/vikunja-0.0.1/vikunja-0.0.1.tgz
     version: 0.0.1
-generated: "2023-01-19T08:16:08.72379134Z"
+  zigbee2mqtt:
+  - apiVersion: v2
+    appVersion: 1.33.1
+    created: "2023-10-20T09:16:27.222384473Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: Zigbee to MQTT bridge.
+    digest: dab65bd46e0b7c9018eb3b24e63f171d6a2576ebbb1286dc11fcbabc4e83c965
+    home: https://github.com/iwilltry42/helm/tree/master/charts/zigbee2mqtt
+    icon: https://www.zigbee2mqtt.io/logo.png
+    keywords:
+    - home-assistant
+    - mqtt
+    - zigbee
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: a.t.bachmann@gmail.com
+      name: Alexander Bachmann
+    name: zigbee2mqtt
+    sources:
+    - https://github.com/Koenkk/zigbee2mqtt
+    type: application
+    urls:
+    - https://github.com/iwilltry42/helm/releases/download/zigbee2mqtt-0.1.4/zigbee2mqtt-0.1.4.tgz
+    version: 0.1.4
+generated: "2023-10-20T09:16:27.222437273Z"
