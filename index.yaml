@@ -230,6 +230,20 @@ entries:
   leantime:
   - apiVersion: v2
     appVersion: 2.3.6
+    created: "2024-01-09T17:23:50.682762443Z"
+    description: Lean project management
+    digest: 2aeb1e1e1e87e51c5598836960ddda27d90c863b1f22d0dd5ec2e1f26dedee19
+    home: https://leantime.io/
+    icon: https://raw.githubusercontent.com/Leantime/leantime/master/public/apple-touch-icon.png
+    name: leantime
+    sources:
+    - https://github.com/Leantime/leantime
+    type: application
+    urls:
+    - https://github.com/iwilltry42/helm/releases/download/leantime-0.0.2/leantime-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 2.3.6
     created: "2024-01-09T09:13:10.515911546Z"
     description: Lean project management
     digest: a92d48adbfe32ff1b2625a2f54bb47981d4664a23b094873a5d088c09077e6d5
@@ -358,4 +372,4 @@ entries:
     urls:
     - https://github.com/iwilltry42/helm/releases/download/zigbee2mqtt-0.1.4/zigbee2mqtt-0.1.4.tgz
     version: 0.1.4
-generated: "2024-01-09T09:13:10.515943947Z"
+generated: "2024-01-09T17:23:50.68280401Z"
