@@ -1,0 +1,10 @@
+apiVersion: v2
+type: application
+version: 0.0.1
+appVersion: 2.3.6
+name: leantime
+description: Lean project management
+home: https://leantime.io/
+icon: https://raw.githubusercontent.com/Leantime/leantime/master/public/apple-touch-icon.png
+sources:
+- https://github.com/Leantime/leantime

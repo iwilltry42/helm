@@ -1,0 +1,328 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "leantime.fullname" . }}
+  labels:
+    {{- include "leantime.labels" . | nindent 4 }}
+  {{- with .Values.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "leantime.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "leantime.selectorLabels" . | nindent 8 }}
+        {{- if .Values.podLabels }}
+          {{- toYaml .Values.podLabels | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "leantime.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{- if .Values.leantime.name }}
+            - name: LEAN_SITENAME
+              value: {{ .Values.leantime.name | quote }}
+            {{- end }}
+            {{- if .Values.leantime.language }}
+            - name: LEAN_LANGUAGE
+              value: {{ .Values.leantime.language | quote }}
+            {{- end }}
+            {{- if .Values.leantime.color }}
+              {{- required "The option leantime.color was deprecated in favor of leantime.primaryColor and leantime.secondaryColor" nil}}
+            {{- end }}
+            {{- if .Values.leantime.primaryColor }}
+            - name: LEAN_PRIMARY_COLOR
+              value: {{ .Values.leantime.primaryColor | quote }}
+            {{- end }}
+            {{- if .Values.leantime.secondaryColor }}
+            - name: LEAN_SECONDARY_COLOR
+              value: {{ .Values.leantime.secondaryColor | quote }}
+            {{- end }}
+            {{- if .Values.leantime.defaultTheme }}
+            - name: LEAN_DEFAULT_THEME
+              value: {{ .Values.leantime.defaultTheme | quote }}
+            {{- end }}
+            {{- if .Values.leantime.keepTheme }}
+            - name: LEAN_KEEP_THEME
+              value: {{ .Values.leantime.keepTheme | quote }}
+            {{- end }}
+            {{- if .Values.leantime.logo }}
+            - name: LEAN_LOGO_PATH
+              value: {{ .Values.leantime.logo | quote }}
+            {{- end }}
+            {{- if .Values.leantime.printLogo }}
+            - name: LEAN_PRINT_LOGO_URL
+              value: {{ .Values.leantime.printLogo | quote }}
+            {{- end }}
+            {{- if .Values.leantime.defaultTimezone }}
+            - name: LEAN_DEFAULT_TIMEZONE
+              value: {{ .Values.leantime.defaultTimezone | quote }}
+            {{- end }}
+            {{- $url := include "leantime.url" . }}
+            {{- if $url }}
+            - name: LEAN_APP_URL
+              value: {{ $url | quote }}
+            {{- end }}
+            {{- if .Values.leantime.sessionExpiration }}
+            - name: LEAN_SESSION_EXPIRATION
+              value: {{ .Values.leantime.sessionExpiration | quote }}
+            {{- end }}
+            - name: LEAN_SESSION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (include "leantime.fullname" .) .Values.leantime.existingSecret }}
+                  key: session-salt
+            {{- if .Values.leantime.projectMenu }}
+            - name: LEAN_ENABLE_MENU_TYPE
+              value: {{ .Values.leantime.projectMenu | quote }}
+            {{- end }}
+            {{- if .Values.leantime.debug }}
+            - name: LEAN_DEBUG
+              value: {{ .Values.leantime.debug | quote }}
+            {{- end }}
+            - name: LEAN_DB_HOST
+              value: {{ include "leantime.databaseHost" . | quote }}
+            - name: LEAN_DB_DATABASE
+              value: {{ include "leantime.database" . | quote }}
+            - name: LEAN_DB_PORT
+              value: {{ include "leantime.databasePort" . | quote }}
+            - name: LEAN_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "leantime.databaseSecret" . }}
+                  key: database-user
+            - name: LEAN_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "leantime.databaseSecret" . }}
+                  key: database-password
+            {{- if eq .Values.leantime.s3.enabled true}}
+            - name: LEAN_USE_S3
+              value: "true"
+            {{- if .Values.leantime.s3.endpoint }}
+            - name: LEAN_S3_END_POINT
+              value: {{ .Values.leantime.s3.endpoint | quote }}
+            {{- end }}
+            {{- if .Values.leantime.s3.usePathStyleEndpoint }}
+            - name: LEAN_S3_USE_PATH_STYLE_ENDPOINT
+              value: {{ .Values.leantime.s3.usePathStyleEndpoint | quote }}
+            {{- end }}
+            - name: LEAN_S3_BUCKET
+              value: {{ required "Bucket name required to enable S3" .Values.leantime.s3.bucket | quote }}
+            - name: LEAN_S3_REGION
+              value: {{ required "Region name required to enable S3" .Values.leantime.s3.region | quote }}
+            {{- if .Values.leantime.s3.folder }}
+            - name: LEAN_S3_FOLDER_NAME
+              value: {{ .Values.leantime.s3.folder | quote }}
+            {{- end }}
+            - name: LEAN_S3_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (include "leantime.fullname" .) .Values.leantime.s3.existingSecret }}
+                  key: s3-key
+            - name: LEAN_S3_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (include "leantime.fullname" .) .Values.leantime.s3.existingSecret }}
+                  key: s3-secret
+            {{- end }}
+            {{- if eq .Values.leantime.smtp.enabled true}}
+            - name: LEAN_EMAIL_USE_SMTP
+              value: "true"            
+            - name: LEAN_EMAIL_RETURN
+              value: {{ required "Sender ('from') required to enable SMTP" .Values.leantime.smtp.from | quote }}
+            - name: LEAN_EMAIL_SMTP_HOSTS
+              value: {{ required "Host required to enable SMTP" .Values.leantime.smtp.host | quote }}
+            {{- if .Values.leantime.smtp.autoTLS }}
+            - name: LEAN_EMAIL_SMTP_AUTO_TLS
+              value: {{ .Values.leantime.smtp.autoTLS | quote }}
+            {{- end }}
+            {{- if .Values.leantime.smtp.secureProtocol }}
+            - name: LEAN_EMAIL_SMTP_SECURE
+              value: {{ .Values.leantime.smtp.secureProtocol | quote }}
+            {{- end }}
+            {{- if .Values.leantime.smtp.port }}
+            - name: LEAN_EMAIL_SMTP_PORT
+              value: {{ .Values.leantime.smtp.port | quote }}
+            {{- end }}
+            - name: LEAN_EMAIL_SMTP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (include "leantime.fullname" .) .Values.leantime.smtp.existingSecret }}
+                  key: smtp-user
+            - name: LEAN_EMAIL_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (include "leantime.fullname" .) .Values.leantime.smtp.existingSecret }}
+                  key: smtp-password
+            {{- end }}{{- /* SMTP */}}
+            {{- if eq .Values.leantime.ldap.enabled true}}
+            - name: LEAN_LDAP_USE_LDAP
+              value: "true"
+            - name: LEAN_LDAP_DN
+              value: {{ required "User DN ('userDN') required to enable LDAP" .Values.leantime.ldap.userDN | quote }}
+            - name: LEAN_LDAP_HOST
+              value: {{ required "Host required to enable LDAP" .Values.leantime.ldap.host | quote }}
+            {{- if .Values.leantime.ldap.port }}
+            - name: LEAN_LDAP_PORT
+              value: {{ .Values.leantime.ldap.port | quote }}
+            {{- end }}
+            {{- if .Values.leantime.ldap.type }}
+            - name: LEAN_LDAP_LDAP_TYPE
+              value: {{ .Values.leantime.ldap.type | quote }}
+            {{- end }}
+            {{- if .Values.leantime.ldap.keys }}
+            - name: LEAN_LDAP_KEYS
+              value: {{ .Values.leantime.ldap.keys | quote }}
+            {{- end }}
+            {{- if .Values.leantime.ldap.groupRoles }}
+            - name: LEAN_LDAP_GROUP_ASSIGNMENT
+              value: {{ .Values.leantime.ldap.groupRoles | quote }}
+            {{- end }}
+            {{- if .Values.leantime.ldap.defaultRole }}
+            - name: LEAN_LDAP_DEFAULT_ROLE_KEY
+              value: {{ .Values.leantime.ldap.defaultRole | quote }}
+            {{- end }}
+            {{- end }}{{- /*LDAP*/}}
+            {{- if .Values.leantime.extraEnv }}
+            {{- range $key, $val := .Values.leantime.extraEnv }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+          - name: {{ include "leantime.fullname" . }}
+            mountPath: /var/www/html/userfiles
+            subPath: userfiles
+          - name: {{ include "leantime.fullname" . }}
+            mountPath: /var/www/html/public/userfiles
+            subPath: public-userfiles
+          - name: {{ include "leantime.fullname" . }}-sessions
+            mountPath: /sessions
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        {{- if eq .Values.internalDatabase.enabled true }}
+        - name: {{ .Chart.Name }}-database
+          securityContext:
+            {{- toYaml .Values.internalDatabase.securityContext | nindent 12 }}
+          image: "{{ .Values.internalDatabase.image.repository }}:{{ .Values.internalDatabase.image.tag }}"
+          imagePullPolicy: {{ .Values.internalDatabase.image.pullPolicy }}
+          env:
+            - name: MYSQL_DATABASE
+              value: "leantime"
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "leantime.databaseSecret" . }}
+                  key: database-user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "leantime.databaseSecret" . }}
+                  key: database-password
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "leantime.databaseSecret" . }}
+                  key: database-root
+          ports:
+            - name: mysql
+              containerPort: 3306
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - mysqladmin status -uroot -p${MYSQL_ROOT_PASSWORD}
+            periodSeconds: 20
+            failureThreshold: 15
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - mysqladmin status -uroot -p${MYSQL_ROOT_PASSWORD}
+            periodSeconds: 20
+            failureThreshold: 15
+          volumeMounts:
+          - name: {{ include "leantime.fullname" . }}-db
+            mountPath: /var/lib/mysql
+          resources:
+            {{- toYaml .Values.internalDatabase.resources | nindent 12 }}
+        {{- end }}
+        {{- if .Values.sidecars }}
+          {{- toYaml .Values.sidecars | nindent 8 }}
+        {{- end }}
+      volumes:
+      - name: {{ include "leantime.fullname" . }}
+        {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim | quote }}{{- else }}{{ include "leantime.fullname" . }}{{- end }}
+        {{- else }}
+        emptyDir: {}
+        {{- end }}
+      - name: {{ include "leantime.fullname" . }}-sessions
+        {{- if .Values.sessionstorage.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ if .Values.sessionstorage.existingClaim }}{{ .Values.sessionstorage.existingClaim | quote }}{{- else }}{{ include "leantime.fullname" . }}-sessions{{- end }}
+        {{- else }}
+        emptyDir: {}
+        {{- end }}
+      {{- if eq .Values.internalDatabase.enabled true }}
+      - name: {{ include "leantime.fullname" . }}-db
+        {{- if .Values.internalDatabase.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ if .Values.internalDatabase.persistence.existingClaim }}{{ .Values.internalDatabase.persistence.existingClaim | quote }}{{ else }}{{ include "leantime.fullname" . }}-db{{ end }}
+        {{- else }}
+        emptyDir: {}
+        {{- end }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
