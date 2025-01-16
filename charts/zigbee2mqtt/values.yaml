@@ -71,7 +71,7 @@ affinity: {}
 config:
   # These will be applied ONLY on first run
   # Home Assistant integration (MQTT discovery)
-  homeassistant: false
+  # homeassistant: false
 
   # allow new devices to join
   # WARNING: Disable this after all devices have been paired! (default: false)
@@ -122,7 +122,7 @@ config:
     # possible values are: disable (default), ISO_8601, ISO_8601_local, epoch (default: disable)
     last_seen: 'ISO_8601'
 
-    homeassistant_discovery_topic: 'homeassistant'
+    #homeassistant_discovery_topic: 'homeassistant'
     homeassistant_status_topic: 'homeassistant/status'
 
     # Optional: Enables report feature (see information -> report for more details) (default: false)
